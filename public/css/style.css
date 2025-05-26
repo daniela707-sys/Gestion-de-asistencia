@@ -1,0 +1,253 @@
+    
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: #f5f5f5;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.admin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.ad{
+    margin-right: 10px;
+    font-weight: 600;
+    font-size: 20px;
+    margin-top: 6px;
+}
+/* CSS corregido */
+.wave-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Asegura que esté detrás de todo */
+    overflow: hidden;
+    /* Elimina flex properties que no son necesarias */
+}
+
+/* El resto de tus estilos wave pueden permanecer igual */
+.wave {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    opacity: 0.6;
+    left: 50%;
+    top: 50%;
+    background: linear-gradient(744deg, #00ff80, #009933 60%, #00cc44);
+    transform: translate(-50%, -50%);
+    border-radius: 40%;
+    animation: wave 55s infinite linear;
+}
+.wave:nth-child(2) {
+    background: linear-gradient(744deg, #00cc66, #009933 60%, #006622);
+    opacity: 0.4;
+}
+
+.wave:nth-child(3) {
+    background: linear-gradient(744deg, #009955, #006633 60%, #003311);
+    opacity: 0.2;
+}
+
+/* Animaciones */
+.wave {
+    border-radius: 40%;
+    animation: wave 55s infinite linear;
+}
+
+.wave:nth-child(2) {
+    animation-duration: 50s;
+    animation-direction: reverse;
+}
+
+.wave:nth-child(3) {
+    animation-duration: 45s;
+}
+
+@keyframes wave {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+/* Asegúrate que el contenido sea clickeable */
+.seccioninfo {
+    position: relative; /* Necesario para z-index */
+    z-index: 1; /* Coloca el contenido sobre el fondo */
+    margin-top: 250px; /* Ajusta según necesites */
+    text-align: center;
+    color: #003311; /* Para contraste con el fondo */
+
+}
+
+
+
+/* From Uiverse.io by satyamchaudharydev */ 
+.button1 {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.button1 {
+  --primary-color: #111;
+  --hovered-color:rgb(253, 253, 253);
+  position: relative;
+  display: flex;
+  font-weight: 600;
+  font-size: 20px;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.button1 p {
+  margin: 0;
+  position: relative;
+  font-size: 20px;
+  color: var(--primary-color);
+}
+
+.button1::after {
+  position: absolute;
+  content: "";
+  width: 0;
+  left: 0;
+  bottom: -7px;
+  background: var(--hovered-color);
+  height: 2px;
+  transition: 0.3s ease-out;
+}
+
+.button1 p::before {
+  position: absolute;
+  /*   box-sizing: border-box; */
+  content: "Inicia sesion";
+  width: 0%;
+  inset: 0;
+  color: var(--hovered-color);
+  overflow: hidden;
+  transition: 0.3s ease-out;
+}
+
+.button1:hover::after {
+  width: 100%;
+}
+
+.button1:hover p::before {
+  width: 100%;
+}
+
+.button1:hover svg {
+  transform: translateX(4px);
+  color: var(--hovered-color);
+}
+
+.button1 svg {
+  color: var(--primary-color);
+  transition: 0.2s;
+  position: relative;
+  width: 15px;
+  transition-delay: 0.2s;
+}
+
+
+/* From Uiverse.io by cssbuttons-io */ 
+.learn-more {
+ position: relative;
+ display: inline-block;
+ cursor: pointer;
+ outline: none;
+ border: 0;
+ vertical-align: middle;
+ text-decoration: none;
+ background: transparent;
+ padding: 0;
+ font-size: inherit;
+ font-family: inherit;
+ z-index: 2;
+
+}
+
+.learn-more {
+ width: 12rem;
+ height: auto;
+}
+
+.learn-more .circle {
+ transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+ position: relative;
+ display: block;
+ margin: 0;
+ width: 3rem;
+ height: 3rem;
+ background: #282936;
+ border-radius: 1.625rem;
+}
+
+.learn-more .circle .icon {
+ transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+ position: absolute;
+ top: 0;
+ bottom: 0;
+ margin: auto;
+ background: #fff;
+}
+
+.learn-more .circle .icon.arrow {
+ transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+ left: 0.625rem;
+ width: 1.125rem;
+ height: 0.125rem;
+ background: none;
+}
+
+.learn-more .circle .icon.arrow::before {
+ position: absolute;
+ content: "";
+ top: -0.29rem;
+ right: 0.0625rem;
+ width: 0.625rem;
+ height: 0.625rem;
+ border-top: 0.125rem solid #fff;
+ border-right: 0.125rem solid #fff;
+ transform: rotate(45deg);
+}
+
+.learn-more .button-text {
+ transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+ position: absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ bottom: 0;
+ padding: 0.75rem 0;
+ margin: 0 0 0 1.85rem;
+ color: #282936;
+ font-weight: 700;
+ line-height: 1.6;
+ text-align: center;
+ text-transform: uppercase;
+}
+
+.learn-more:hover .circle {
+ width: 100%;
+}
+
+.learn-more:hover .circle .icon.arrow {
+ background: #fff;
+ transform: translate(1rem, 0);
+}
+
+.learn-more:hover .button-text {
+ color: #fff;
+}

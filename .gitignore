@@ -1,0 +1,24 @@
+# Archivos de configuración con credenciales
+app/config/email.php
+app/config/*.php
+!app/config/database.example.php
+
+# Directorios de dependencias
+/vendor/
+
+
+
+# Archivos de entorno
+.env
+*.env
+
+# Archivos de logs
+*.log
+
+# Directorios de uploads y QR codes
+public/uploads/
+public/assets/qrcodes/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
