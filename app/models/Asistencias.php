@@ -8,6 +8,8 @@ use Endroid\QrCode\Label\Alignment\LabelAlignmentCenter;
 use Endroid\QrCode\Label\Font\NotoSans;
 use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\Writer\PngWriter;
+
+
 class Asistencias {
     private $conn;
     private $table = "asistencias";
@@ -32,8 +34,8 @@ class Asistencias {
                 $qrPath = $this->generarQR($email, $codigo);
             } catch (Exception $e) {
                 $this->lastError = "Error al generar QR: " . $e->getMessage();
-                error_log($this->lastError);
-                return false;
+                return error_log($this->lastError);
+                 
             }
             
             // Check if this email is already registered for this event
@@ -47,8 +49,8 @@ class Asistencias {
             
             if ($stmt->fetchColumn() > 0) {
                 $this->lastError = "Este email ya está registrado para este evento";
-                error_log($this->lastError);
-                return false;
+                return error_log($this->lastError);
+                
             }
             
             $query = "INSERT INTO " . $this->table . " 
@@ -133,63 +135,8 @@ class Asistencias {
         }
     }
 
-    private function enviarEmailConfirmacion($email, $nombre, $evento_id, $codigo, $qrPath) {
-        try {
-            // Obtener detalles del evento
-            $evento = $this->obtenerPorEvento($evento_id);
-            if (!$evento) {
-                throw new Exception("No se pudo obtener la información del evento");
-            }
 
-            // Crear una nueva instancia de PHPMailer
-            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
-            
-            // Configuración del servidor SMTP
-            $mail->isSMTP();
-            $mail->Host = 'smtp.tudominio.com';  // Servidor SMTP
-            $mail->SMTPAuth = true;
-            $mail->Username = 'tucorreo@tudominio.com'; // Tu email
-            $mail->Password = 'tucontraseña'; // Tu contraseña
-            $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587; // Puerto SMTP
 
-            // Remitente
-            $mail->setFrom('no-reply@tudominio.com', 'Sistema de Asistencias');
-            $mail->addAddress($email, $nombre); // Destinatario
-
-            // Contenido del email
-            $mail->isHTML(true);
-            $mail->Subject = 'Confirmación de asistencia: ' . $evento['nombre'];
-            
-            // Cuerpo del mensaje
-            $mail->Body = "
-                <h1>¡Gracias por registrarte, {$nombre}!</h1>
-                <p>Tu registro para el evento <strong>{$evento['nombre']}</strong> ha sido confirmado.</p>
-                <p><strong>Fecha:</strong> {$evento['fecha']} a las {$evento['hora']}</p>
-                <p><strong>Lugar:</strong> {$evento['lugar']}</p>
-                <p><strong>Código de acceso:</strong> {$codigo}</p>
-                <p>Presenta este código QR al ingresar al evento:</p>
-                <img src='cid:qr_code' alt='Código QR' width='200'>
-                <p>¡Te esperamos!</p>
-            ";
-            
-            // Adjuntar imagen QR
-            $mail->addStringEmbeddedImage(
-                file_get_contents($_SERVER['DOCUMENT_ROOT'] . $qrPath),
-                'qr_code',
-                'qr.png',
-                'base64',
-                'image/png'
-            );
-
-            $mail->send();
-            error_log("Email enviado exitosamente a: {$email}");
-            return true;
-        } catch (Exception $e) {
-            error_log("Error al enviar email: " . $e->getMessage());
-            return false;
-        }
-    }
 
     public function obtenerPorId($id) {
         $query = "SELECT * FROM " . $this->table . " WHERE id = :id";

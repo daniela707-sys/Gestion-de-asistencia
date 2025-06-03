@@ -127,7 +127,9 @@ async function handleSubmit(e) {
             descripcion: descripcionInput,
             fecha: fechaInput,
             hora: horaInput,
-            duracion: duracionInput
+            duracion: duracionInput,
+            
+            
         };
 
         const emptyFields = Object.entries(requiredFields)
@@ -149,6 +151,7 @@ async function handleSubmit(e) {
         formData.append('fecha', fechaInput.value);
         formData.append('hora', horaInput.value);
         formData.append('duracion', duracionInput.value);
+        
 
         // Agregar imagen si existe
         if (imagenInput.files[0]) {

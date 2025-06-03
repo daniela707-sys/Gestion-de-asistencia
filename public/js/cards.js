@@ -107,37 +107,37 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         
         const form = e.target;
-        const formData = {
-            evento_id: form.evento_id.value,
-            nombre: form.nombre.value,
-            email: form.email.value
-        };
-
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const messageDiv = document.getElementById('form-message');
+        
+        // Disable button and show loading
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Procesando...';
+        messageDiv.textContent = 'Enviando registro...';
+        messageDiv.style.color = 'blue';
+        
+        // Create FormData object from the form
+        const formData = new FormData(form);
+        
         try {
             const response = await fetch('/Asistencia/app/controllers/AsistenciasController.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
+                body: formData // Send as FormData, not JSON
             });
             
             if (!response.ok) {
-                const errorData = await response.json().catch(() => null);
-                const errorMsg = errorData?.message || `Error HTTP: ${response.status}`;
-                throw new Error(errorMsg);
+                throw new Error(`Error HTTP: ${response.status}`);
             }
-
-            // Verificar si la respuesta es JSON
-            const contentType = response.headers.get('content-type');
-            if (!contentType || !contentType.includes('application/json')) {
+            
+            // Try to parse the response as JSON
+            let result;
+            try {
+                result = await response.json();
+            } catch (jsonError) {
                 const text = await response.text();
-                throw new Error(`Respuesta inesperada: ${text.substring(0, 100)}`);
+                console.error('Response text:', text);
+                throw new Error('Error al procesar la respuesta del servidor');
             }
-            
-            const result = await response.json();
-            
-            
             
             if (result.success) {
                 messageDiv.textContent = result.message;
@@ -147,19 +147,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     loadEvents();
                 }, 3000);
             } else {
-                throw new Error(result.message);
+                throw new Error(result.message || 'Error desconocido');
             }
         } catch (error) {
             console.error('Error completo:', error);
             messageDiv.textContent = `Error: ${error.message}`;
             messageDiv.style.color = 'red';
-            
-            // Mostrar más detalles en consola para depuración
-            if (error.response) {
-                console.error('Respuesta del servidor:', error.response);
-            }
+        } finally {
+            // Re-enable button
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Registrarse';
         }
-    }); 
+    });
+
     }
 
     // Iniciar carga de eventos

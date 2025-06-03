@@ -47,7 +47,8 @@ class eventos {
             ":descripcion" => $descripcion,
             ":fecha" => $fecha,
             ":hora" => $hora,
-            ":duracion" => $duracion
+            ":duracion" => $duracion,
+            
         ];
         if ($imagen) {
             $params[":imagen"] = $imagen;
@@ -55,6 +56,8 @@ class eventos {
 
         return $stmt->execute($params);
     }
+
+   
 
     public function eliminar($id) {
         $query = "DELETE FROM " . $this->table . " WHERE id = ?";
